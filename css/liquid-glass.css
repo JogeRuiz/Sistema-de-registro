@@ -1,0 +1,251 @@
+/* =============================================
+   DocenteOS – Liquid Glass Theme (final)
+   ============================================= */
+:root {
+  --lg-bg-image: url("https://barilocheturismo.gob.ar/images/news/upload/197_genericverano-4.jpg");
+  --lg-bg-blend: normal;
+  --lg-glass-bg: rgba(255, 255, 255, 0.25);
+  --lg-glass-border: rgba(255, 255, 255, 0.4);
+  --lg-glass-highlight: rgba(255, 255, 255, 0.9);
+  --lg-glass-shadow: 0 8px 32px rgba(0, 20, 40, 0.15);
+  --lg-glass-hover-shadow: 0 16px 48px rgba(0, 80, 120, 0.2);
+  --lg-text-primary: #000000;
+  --lg-text-secondary: #1a1a1a;
+  --lg-accent: #0ea5e9;
+  --lg-accent-soft: rgba(14, 165, 233, 0.15);
+  --lg-surface: rgba(255, 255, 255, 0.7);
+  --lg-sidebar-bg: rgba(255, 255, 255, 0.3);
+  --lg-sidebar-border: rgba(255, 255, 255, 0.5);
+  --lg-btn-active-bg: #0ea5e9;
+  --lg-btn-active-text: white;
+  --lg-input-bg: rgba(255, 255, 255, 0.5);
+  --lg-input-focus-bg: rgba(255, 255, 255, 0.9);
+  --lg-modal-overlay: rgba(0, 0, 0, 0.3);
+  --lg-toast-bg: rgba(15, 23, 42, 0.9);
+  --lg-toast-text: #f1f5f9;
+}
+
+body.dark {
+  --lg-bg-blend: brightness(0.5) saturate(0.7);
+  --lg-glass-bg: rgba(15, 23, 42, 0.5);
+  --lg-glass-border: rgba(255, 255, 255, 0.08);
+  --lg-glass-highlight: rgba(255, 255, 255, 0.15);
+  --lg-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --lg-glass-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --lg-text-primary: #ffffff;
+  --lg-text-secondary: #d1d5db;
+  --lg-accent: #38bdf8;
+  --lg-accent-soft: rgba(56, 189, 248, 0.2);
+  --lg-surface: rgba(15, 23, 42, 0.6);
+  --lg-sidebar-bg: rgba(8, 47, 73, 0.5);
+  --lg-sidebar-border: rgba(255, 255, 255, 0.05);
+  --lg-btn-active-bg: #38bdf8;
+  --lg-btn-active-text: #0f172a;
+  --lg-input-bg: rgba(0, 0, 0, 0.4);
+  --lg-input-focus-bg: rgba(0, 0, 0, 0.7);
+  --lg-modal-overlay: rgba(0, 0, 0, 0.6);
+  --lg-toast-bg: rgba(255, 255, 255, 0.95);
+  --lg-toast-text: #0f172a;
+}
+
+/* ========== BASE ========== */
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  color: var(--lg-text-primary);
+  background: var(--lg-bg-image) center/cover fixed;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: inherit;
+  filter: var(--lg-bg-blend);
+  transition: filter 0.4s;
+}
+
+/* ========== SCROLLBAR ========== */
+.custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--lg-glass-highlight); border-radius: 9999px; }
+
+/* ========== BOTONES ========== */
+button { cursor: pointer; transition: all 0.2s ease; }
+button:active { transform: scale(0.96); }
+
+/* ========== PANELES LIQUID GLASS ========== */
+.lg-panel {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--lg-glass-shadow);
+  transition: box-shadow 0.4s, transform 0.4s;
+  background: transparent;
+}
+.lg-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  backdrop-filter: blur(20px) saturate(180%);
+  filter: url(#lg-dist);
+  pointer-events: none;
+}
+.lg-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--lg-glass-bg);
+  border: 1px solid var(--lg-glass-border);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.lg-panel .lg-specular {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  box-shadow: inset 1px 1px 0 var(--lg-glass-highlight);
+  pointer-events: none;
+}
+.lg-panel .lg-content {
+  position: relative;
+  z-index: 3;
+  padding: 1.5rem;
+}
+.lg-panel:hover {
+  box-shadow: var(--lg-glass-hover-shadow);
+  transform: translateY(-2px);
+}
+
+/* ========== SIDEBAR ========== */
+#sidebar-container {
+  background: var(--lg-sidebar-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  border-right: 1px solid var(--lg-sidebar-border);
+  box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1000;
+}
+#sidebar-container * {
+  pointer-events: auto;
+}
+#sidebar-container button {
+  position: relative;
+  z-index: 1001;
+}
+
+/* ========== MODAL ========== */
+.modal-overlay { background: var(--lg-modal-overlay); backdrop-filter: blur(12px); }
+.modal-box {
+  background: var(--lg-glass-bg);
+  backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--lg-glass-border);
+  border-radius: 2rem;
+  box-shadow: var(--lg-glass-hover-shadow);
+}
+
+/* ========== INPUTS ========== */
+input, textarea, select {
+  background: var(--lg-input-bg);
+  border: 1px solid var(--lg-glass-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--lg-text-primary);
+  font-family: inherit;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+input:focus, textarea:focus, select:focus {
+  background: var(--lg-input-focus-bg);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--lg-accent-soft);
+}
+
+/* ========== TOAST ========== */
+.toast { background: var(--lg-toast-bg); color: var(--lg-toast-text); backdrop-filter: blur(20px); border: 1px solid var(--lg-glass-border); }
+
+/* ========== BOTÓN ACTIVO ========== */
+.sidebar-btn-active { background: var(--lg-btn-active-bg) !important; color: var(--lg-btn-active-text) !important; }
+.text-accent { color: var(--lg-accent); }
+.bg-accent-soft { background: var(--lg-accent-soft); }
+
+/* ========== ANIMACIONES ========== */
+@keyframes fadeInOverlay {
+  0% { opacity: 0; background: rgba(0,0,0,0); }
+  100% { opacity: 1; background: rgba(0,0,0,0.25); }
+}
+@keyframes appleSpringModal {
+  0% { opacity: 0; transform: scale(0.85) translateY(30px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes fadeInRouter {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.fade-enter { animation: fadeInRouter 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+/* ========== IMPRESIÓN ========== */
+@media print {
+  .no-print, aside, button, input, textarea, select, .toast, .modal-overlay, .hamburger-btn { display: none !important; }
+  body { overflow: visible !important; background: white !important; background-image: none !important; color: black !important; }
+  .lg-panel { border: 1px solid #ccc !important; box-shadow: none !important; background: transparent !important; backdrop-filter: none !important; }
+  #main-scroll-container { overflow: visible !important; padding: 0 !important; }
+  #app-layout { display: block !important; height: auto !important; }
+  main { display: block !important; }
+  .text-emerald-500 { color: #10b981 !important; }
+  .text-rose-500 { color: #f43f5e !important; }
+  .text-amber-500 { color: #f59e0b !important; }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  #sidebar-container { background: var(--lg-sidebar-bg); backdrop-filter: blur(40px); }
+}
+
+/* ========== LAYOUT FINAL ========== */
+#app-layout {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  background: transparent;
+}
+#main-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  z-index: 5;
+}
+/* El fondo debe estar detrás del layout */
+body::before { z-index: -1; }
+
+/* ========== LEGIBILIDAD MEJORADA (MODO CLARO) ========== */
+body:not(.dark) .text-slate-300,
+body:not(.dark) .text-slate-400,
+body:not(.dark) .text-slate-500,
+body:not(.dark) .text-slate-600 {
+  color: #1a1a1a !important;
+}
+body:not(.dark) .text-slate-400,
+body:not(.dark) .text-slate-500 {
+  color: #222222 !important;
+}
+body:not(.dark) .text-emerald-500 {
+  color: #047857 !important;
+}
+body:not(.dark) .text-emerald-600 {
+  color: #065f46 !important;
+}
+body:not(.dark) .text-slate-700,
+body:not(.dark) .text-slate-800,
+body:not(.dark) .text-slate-900 {
+  color: #0f172a !important;
+}
+body:not(.dark) .text-xs,
+body:not(.dark) .text-sm {
+  color: #1f2937 !important;
+}

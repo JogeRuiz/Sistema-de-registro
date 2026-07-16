@@ -1,0 +1,20 @@
+/* =============================================
+   DocenteOS – Estilos de componentes específicos
+   ============================================= */
+
+/* Tarjetas de estadísticas */
+.stat-card .stat-icon {
+  /* clases ya aplicadas con Tailwind, aquí podemos añadir overrides si se necesita */
+}
+
+/* Toast notifications */
+.toast {
+  /* animación ya está en main, aquí podemos añadir estilos extra si Tailwind no llega */
+}
+
+/* Botones de estado en asistencia */
+.status-btn {
+  /* por ahora usan clases inline, podemos centralizar */
+}
+
+/* ... etc., dependiendo de qué componentes quieras desacoplar */
