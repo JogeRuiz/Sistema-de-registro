@@ -54,6 +54,10 @@
         </div>
     </div>
 
+    <!-- Zonas táctiles para scroll en celulares (doble toque) -->
+    <div id="touch-zone-top" class="fixed top-0 left-0 w-full h-12 z-[10000] bg-transparent" ontouchend="handleTouchZone('up')"></div>
+    <div id="touch-zone-bottom" class="fixed bottom-0 left-0 w-full h-12 z-[10000] bg-transparent" ontouchend="handleTouchZone('down')"></div>
+
     <!-- Librerías externas -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -101,9 +105,6 @@
     <script src="js/views/files.js"></script>  
     <script src="js/modals.js"></script>
     <script src="js/main.js"></script>
-
-    <!-- Zonas táctiles para scroll en celulares -->
-<div id="touch-zone-top" class="fixed top-0 left-0 w-full h-12 z-[10000] bg-transparent" ontouchend="handleTouchZone('up')"></div>
-<div id="touch-zone-bottom" class="fixed bottom-0 left-0 w-full h-12 z-[10000] bg-transparent" ontouchend="handleTouchZone('down')"></div>
+    
 </body>
 </html>
