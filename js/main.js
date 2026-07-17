@@ -190,36 +190,38 @@ window.boot = async () => {
     }
 };
 
-// ========== SCROLL FLOTANTE (SIEMPRE VISIBLE Y FUNCIONAL) ==========
+// ========== SCROLL FLOTANTE (SIEMPRE VISIBLE, BUSCA EL CONTENEDOR CORRECTO) ==========
 window.scrollView = (direction) => {
-    // Buscar el contenedor desplazable activo (save-scroll o el principal)
     const mainArea = document.getElementById('main-scroll-container');
     if (!mainArea) return;
+
+    // 1. Buscar el contenedor con clase 'save-scroll' (usado en las tablas)
     let container = mainArea.querySelector('.save-scroll');
+    
+    // 2. Si no se encuentra o no tiene scroll, buscar cualquier elemento con overflow dentro del área principal
     if (!container || container.scrollHeight <= container.clientHeight) {
+        const all = mainArea.querySelectorAll('*');
+        for (const el of all) {
+            if (el.scrollHeight > el.clientHeight && el.clientHeight > 0) {
+                container = el;
+                break;
+            }
+        }
+    }
+    
+    // 3. Si aún no hay contenedor, usar el propio main-scroll-container
+    if (!container) {
         container = mainArea;
     }
+
+    // Si no hay nada que desplazar, salir
     if (container.scrollHeight <= container.clientHeight) return;
-    
-    const amount = container.clientHeight * 0.8; // 80% de la altura visible
+
+    const amount = container.clientHeight * 0.8;
     container.scrollBy({
         top: direction === 'down' ? amount : -amount,
         behavior: 'smooth'
     });
 };
-
-// Asegurar que los botones estén habilitados (por si acaso)
-window.addEventListener('load', () => {
-    const btnDown = document.getElementById('scroll-down-btn');
-    const btnUp = document.getElementById('scroll-up-btn');
-    if (btnDown) {
-        btnDown.style.opacity = '1';
-        btnDown.style.pointerEvents = 'auto';
-    }
-    if (btnUp) {
-        btnUp.style.opacity = '1';
-        btnUp.style.pointerEvents = 'auto';
-    }
-});
 
 window.addEventListener('DOMContentLoaded', () => { boot(); });
