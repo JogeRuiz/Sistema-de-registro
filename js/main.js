@@ -128,32 +128,28 @@ window.boot = async () => {
         requestNotificationPermission();
         initPWA();
 
-        // Verificar token de Google
-        // Intentar obtener token de localStorage primero (viene de login.html)
-const token = localStorage.getItem('docenteos_google_token') || state.settings.googleAuthToken;
-if (token) {
-    // Guardarlo también en el estado de la app
-    state.settings.googleAuthToken = token;
-    save();
-}
+        // Verificar token de Google (lee de sessionStorage primero, luego del estado)
+        const token = sessionStorage.getItem('docenteos_token') || state.settings.googleAuthToken;
         if (token) {
+            state.settings.googleAuthToken = token;
+            save();
             accessToken = token;
+
+            // Validar token (rápido)
             const valid = await window.isTokenValid();
             if (valid) {
-                // Token válido: cerrar loading, restaurar backup, iniciar app
-                document.getElementById('loading').style.display = 'flex';
-                await initDriveBackup();
-                startAutoBackupToDrive();
-                document.getElementById('loading').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('app-layout').classList.remove('hidden');
-                    render(true);
-                    if (window.innerWidth <= 768) {
-                        state.ui.sidebarOpen = false;
-                        render();
-                    }
-                }, 700);
+                // Ocultar loading y mostrar interfaz inmediatamente
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('app-layout').classList.remove('hidden');
+                render(true);
+                if (window.innerWidth <= 768) {
+                    state.ui.sidebarOpen = false;
+                    render();
+                }
+
+                // Intentar restaurar backup en segundo plano (sin bloquear)
+                initDriveBackup().catch(err => console.warn("Fallo restauración Drive:", err));
+                try { startAutoBackupToDrive(); } catch(e) { console.warn("No se pudo iniciar backup automático"); }
             } else {
                 // Token inválido: limpiar y redirigir al login
                 accessToken = null;
@@ -193,5 +189,37 @@ if (token) {
         if (loading) loading.innerHTML = `<div class="bg-white p-8 text-center text-rose-500 font-bold">Error crítico: ${error.message}</div>`;
     }
 };
+
+// ========== SCROLL FLOTANTE (SIEMPRE VISIBLE Y FUNCIONAL) ==========
+window.scrollView = (direction) => {
+    // Buscar el contenedor desplazable activo (save-scroll o el principal)
+    const mainArea = document.getElementById('main-scroll-container');
+    if (!mainArea) return;
+    let container = mainArea.querySelector('.save-scroll');
+    if (!container || container.scrollHeight <= container.clientHeight) {
+        container = mainArea;
+    }
+    if (container.scrollHeight <= container.clientHeight) return;
+    
+    const amount = container.clientHeight * 0.8; // 80% de la altura visible
+    container.scrollBy({
+        top: direction === 'down' ? amount : -amount,
+        behavior: 'smooth'
+    });
+};
+
+// Asegurar que los botones estén habilitados (por si acaso)
+window.addEventListener('load', () => {
+    const btnDown = document.getElementById('scroll-down-btn');
+    const btnUp = document.getElementById('scroll-up-btn');
+    if (btnDown) {
+        btnDown.style.opacity = '1';
+        btnDown.style.pointerEvents = 'auto';
+    }
+    if (btnUp) {
+        btnUp.style.opacity = '1';
+        btnUp.style.pointerEvents = 'auto';
+    }
+});
 
 window.addEventListener('DOMContentLoaded', () => { boot(); });
