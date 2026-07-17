@@ -87,7 +87,10 @@ function render(forceSidebarUpdate = false) {
             });
         });
 
-    } catch (error) { notify("Fallo en la carga de la interfaz", "error"); }
+    } catch (error) {
+        console.error("Error en render:", error);
+        notify("Fallo en la carga de la interfaz", "error");
+    }
 }
 
 const ContentRouter = () => {
