@@ -42,7 +42,6 @@
         <div class="modal-box p-0 relative overflow-hidden animate-fade-in" style="max-width:380px; width:100%; border-radius:2rem;">
             <div class="lg-specular"></div>
             <div class="lg-content p-8 text-center">
-                <!-- Ícono simple de nube -->
                 <div class="w-14 h-14 bg-sky-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <i data-lucide="cloud" class="w-7 h-7 text-sky-600"></i>
                 </div>
@@ -72,6 +71,7 @@
     </div>
 
     <script>
+        // Mismo Client ID de Google Cloud Console
         const CLIENT_ID = "1074987596307-0qa9ejmlna92mq66ohmo51n37fctlbkq.apps.googleusercontent.com";
 
         window.addEventListener('load', () => {
@@ -81,23 +81,24 @@
         window.handleLogin = () => {
             const client = google.accounts.oauth2.initTokenClient({
                 client_id: CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/drive.file ' +
-                       'https://www.googleapis.com/auth/classroom.courses ' +
-                       'https://www.googleapis.com/auth/classroom.rosters ' +
-                       'https://www.googleapis.com/auth/classroom.coursework.students',
+                // Solo scope de Drive (no requiere verificación)
+                scope: 'https://www.googleapis.com/auth/drive.file',
                 callback: (resp) => {
                     if (resp.error) {
                         alert("Error de autenticación: " + resp.error);
                         return;
                     }
-                    localStorage.setItem('docenteos_google_token', resp.access_token);
+                    // Guardar token en sessionStorage (más seguro que localStorage para pruebas)
+                    sessionStorage.setItem('docenteos_token', resp.access_token);
+                    // Redirigir a la aplicación principal
                     window.location.href = 'index.html';
                 }
             });
             client.requestAccessToken();
         };
 
-        if (localStorage.getItem('docenteos_google_token')) {
+        // Si ya hay token guardado, redirigir directamente
+        if (sessionStorage.getItem('docenteos_token')) {
             window.location.href = 'index.html';
         }
     </script>
