@@ -874,3 +874,15 @@ window.manualBackupToDrive = async () => {
         notify("Error al subir backup manual", "error");
     }
 };
+// Stubs para funciones obsoletas de backup local (evitan errores en settings)
+window.exportData = () => {
+    notify("La exportación manual fue reemplazada por el backup automático en Drive.", "info");
+};
+
+window.importData = () => {
+    notify("La importación manual fue reemplazada por la restauración automática desde Drive.", "info");
+};
+
+window.restoreBackupByIndex = () => {
+    notify("Usá la restauración desde Drive en la sección de respaldo.", "info");
+};
