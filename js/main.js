@@ -86,26 +86,15 @@ document.addEventListener('keydown', (e) => {
     } catch (error) { console.error("Error en Escape Listener:", error); }
 });
 
-// --------------- Scroll con teclas de flecha (mejorado) ---------------
-document.addEventListener('keydown', (e) => {
-    // Ignorar si el foco está en un input/textarea/select
-    const activeElement = document.activeElement;
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'SELECT')) return;
-
+// --------------- Scroll táctil para celulares (doble toque en bordes) ---------------
+window.handleTouchZone = (direction) => {
     const mainContainer = document.getElementById('main-scroll-container');
     if (!mainContainer) return;
 
     // Buscar el contenedor que realmente se desplaza
-    let container = null;
-
-    // 1. Intentar con .save-scroll (el que usan las tablas)
-    const saveScroll = mainContainer.querySelector('.save-scroll');
-    if (saveScroll && saveScroll.scrollHeight > saveScroll.clientHeight) {
-        container = saveScroll;
-    }
-
-    // 2. Si no se encontró, buscar cualquier elemento con overflow dentro del área principal
-    if (!container) {
+    let container = mainContainer.querySelector('.save-scroll');
+    if (!container || container.scrollHeight <= container.clientHeight) {
+        // Si no, buscar cualquier elemento con overflow
         const allElements = mainContainer.querySelectorAll('*');
         for (const el of allElements) {
             if (el.scrollHeight > el.clientHeight && el.clientHeight > 0) {
@@ -114,25 +103,15 @@ document.addEventListener('keydown', (e) => {
             }
         }
     }
-
-    // 3. Si aún no hay contenedor, usar el propio main-scroll-container
-    if (!container) {
-        container = mainContainer;
-    }
-
-    // Si el contenedor no tiene scroll real, no hacer nada
+    if (!container) container = mainContainer;
     if (container.scrollHeight <= container.clientHeight) return;
 
-    const scrollAmount = 100; // píxeles por pulsación
-
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
-    } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
-    }
-});
+    const amount = container.clientHeight * 0.8; // 80% de la altura visible
+    container.scrollBy({
+        top: direction === 'down' ? amount : -amount,
+        behavior: 'smooth'
+    });
+};
 
 // --------------- Eventos de resize y click para sidebar ---------------
 window.addEventListener('resize', () => {
