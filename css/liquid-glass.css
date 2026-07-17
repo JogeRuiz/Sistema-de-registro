@@ -248,6 +248,7 @@ body:not(.dark) .text-xs,
 body:not(.dark) .text-sm {
   color: #1f2937 !important;
 }
+
 /* Mejora de scroll táctil */
 #main-scroll-container, #main-scroll-container * {
   -webkit-overflow-scrolling: touch;
