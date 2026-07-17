@@ -220,7 +220,6 @@ input:focus, textarea:focus, select:focus {
   position: relative;
   z-index: 5;
 }
-/* El fondo debe estar detrás del layout */
 body::before { z-index: -1; }
 
 /* ========== LEGIBILIDAD MEJORADA (MODO CLARO) ========== */
@@ -248,4 +247,14 @@ body:not(.dark) .text-slate-900 {
 body:not(.dark) .text-xs,
 body:not(.dark) .text-sm {
   color: #1f2937 !important;
+}
+
+/* Botones flotantes de scroll (siempre visibles) */
+#scroll-down-btn, #scroll-up-btn {
+  transition: transform 0.2s;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+#scroll-down-btn:hover, #scroll-up-btn:hover {
+  transform: scale(1.1);
 }
