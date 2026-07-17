@@ -94,7 +94,6 @@ window.handleTouchZone = (direction) => {
     // Buscar el contenedor que realmente se desplaza
     let container = mainContainer.querySelector('.save-scroll');
     if (!container || container.scrollHeight <= container.clientHeight) {
-        // Si no, buscar cualquier elemento con overflow
         const allElements = mainContainer.querySelectorAll('*');
         for (const el of allElements) {
             if (el.scrollHeight > el.clientHeight && el.clientHeight > 0) {
