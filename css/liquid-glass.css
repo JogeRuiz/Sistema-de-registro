@@ -248,3 +248,25 @@ body:not(.dark) .text-xs,
 body:not(.dark) .text-sm {
   color: #1f2937 !important;
 }
+/* Mejora de scroll táctil */
+#main-scroll-container, #main-scroll-container * {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Zonas táctiles */
+#touch-zone-top, #touch-zone-bottom {
+  display: none; /* Ocultas en escritorio */
+}
+
+@media (max-width: 768px) {
+  #touch-zone-top, #touch-zone-bottom {
+    display: block; /* Solo visibles en móviles */
+  }
+}
+
+@media print {
+  #touch-zone-top, #touch-zone-bottom {
+    display: none !important;
+  }
+}
