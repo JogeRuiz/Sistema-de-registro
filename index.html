@@ -103,5 +103,12 @@
     <script src="js/modals.js"></script>
     <script src="js/main.js"></script>
     
+    <!-- Botones flotantes para scroll rápido (siempre visibles) -->
+    <button id="scroll-down-btn" class="fixed bottom-6 right-6 z-[10001] w-12 h-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-white/50 dark:border-slate-700 shadow-2xl rounded-full flex items-center justify-center" onclick="scrollView('down')" title="Bajar">
+      <i data-lucide="chevron-down" class="w-6 h-6 text-apple-blue dark:text-sky-400"></i>
+    </button>
+    <button id="scroll-up-btn" class="fixed bottom-20 right-6 z-[10001] w-12 h-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-white/50 dark:border-slate-700 shadow-2xl rounded-full flex items-center justify-center" onclick="scrollView('up')" title="Subir">
+      <i data-lucide="chevron-up" class="w-6 h-6 text-apple-blue dark:text-sky-400"></i>
+    </button>
 </body>
 </html>
